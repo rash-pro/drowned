@@ -12,7 +12,7 @@ include Chingu
 class Game < Chingu::Window 
   def initialize()
     super(500,600,false)    
-    @bgmusic = Song["come-together.ogg"]
+    @bgmusic = Song["theme.ogg"]
     @bgmusic.play
     #switch_game_state(SplashScreen.new)
   end
