@@ -10,7 +10,8 @@ class Fruit < Chingu::GameObject
   trait :bounding_circle, :debug => false
   trait :collision_detection
   
-  def setup    
+  def setup
+    self.factor = 0.8    
     @animation = Chingu::Animation.new(:file => "watermelon.png", :size => 32)
     @image = @animation.next
 

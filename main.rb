@@ -18,7 +18,7 @@ class Game < Chingu::Window
   
   def setup
     retrofy
-    self.factor = 3
+    self.factor = 1.5
     switch_game_state(Main.new)
   end    
 end
