@@ -22,8 +22,8 @@ class Player < Chingu::GameObject
                     [:holding_down, :holding_s] => :holding_down
                   }
     
-    @animations = Chingu::Animation.new(:file => "person.png")
-    @animations.frame_names = { :main => 0..7}
+    @animations = Chingu::Animation.new(file: "person.png", scale: 0.2)
+    @animations.frame_names = { :main => 0..7 }
     
     # Start out by animation frames 0-5 (contained by @animations[:main])
     @animation = @animations[:main]
