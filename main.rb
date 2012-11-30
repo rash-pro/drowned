@@ -45,11 +45,7 @@ class Main < GameState
     # Create 40 stars scattered around the map. This is now replaced by load_game_objects()
     # ## 40.times { |nr| Star.create(:x => rand * self.viewport.x_max, :y => rand * self.viewport.y_max) }
     #
-    # load_game_objects( :file => "example19_game_objects.yml" )
-    #
-    
-    # We can skip the :file argument and Level19 will as default load from "level19.yml"
-    load_game_objects
+    load_game_objects( :file => "map.yml")
   
     # Create our mechanic star-hunter
     @droid = Droid.create(:x => 100, :y => 100)    
