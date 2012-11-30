@@ -9,10 +9,7 @@ include Chingu
 class Fruit < Chingu::GameObject
   trait :bounding_circle, :debug => false
   trait :collision_detection
-<<<<<<< HEAD
-=======
-    
->>>>>>> 162e777b7c05473fc2b646dec013bc2d42ccf782
+
   def setup
     num = rand(1..3)
     case num
@@ -24,11 +21,7 @@ class Fruit < Chingu::GameObject
       fruta = "grapes.png"
     end
     self.factor = 0.8    
-<<<<<<< HEAD
-    @animation = Chingu::Animation.new(file: "watermelon.png", :size => 32)
-=======
     @animation = Chingu::Animation.new(:file => fruta, :size => 32)
->>>>>>> 162e777b7c05473fc2b646dec013bc2d42ccf782
     @image = @animation.next
 
     # A cached bounding circle will not adapt to changes in size, but it will follow objects X / Y
