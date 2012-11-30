@@ -1,9 +1,10 @@
-class Player < Chingu::GameObject  
-  def move_left;  @x -= 3; end
-  def move_right; @x += 3; end
-  def move_up;    @y -= 3; end
-  def move_down;  @y += 3; end
-end
+#!/usr/bin/env ruby
+
+require 'rubygems' rescue nil
+$LOAD_PATH.unshift File.join(File.expand_path(__FILE__), "..", "..", "lib")
+require 'chingu'
+include Gosu
+include Chingu
 
 class Fruit < Chingu::GameObject
   trait :bounding_circle, :debug => false
