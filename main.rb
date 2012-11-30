@@ -18,8 +18,9 @@ class Game < Chingu::Window
   
   def setup
     retrofy
-    self.factor = 1.5
+    self.factor = 1.2
     switch_game_state(Main.new)
+
   end    
 end
 
@@ -37,7 +38,7 @@ class Main < GameState
   def initialize(options = {})
     super
     
-    self.input = { :escape => :exit } 
+    self.input = { escape: :exit } 
 
     Sound["fruit.wav"] # cache sound by accessing it once
     
@@ -48,6 +49,8 @@ class Main < GameState
     # Create 40 stars scattered around the map. This is now replaced by load_game_objects()
     # ## 40.times { |nr| Star.create(:x => rand * self.viewport.x_max, :y => rand * self.viewport.y_max) }
     #
+    @parallax = Chingu::Parallax.create(:x => 0, :y => 0)
+    @parallax << { :image => "sand.png", :repeat_x => true, :repeat_y => true}
     load_game_objects( :file => "map.yml")
 
     @player = Player.create(:x => 100, :y => 100)    
@@ -74,6 +77,7 @@ class Main < GameState
         
     $window.caption = "Drowned"
   end
+
 end
 
 
