@@ -14,11 +14,17 @@ class Game < Chingu::Window
     super(500,600,false)    
     @bgmusic = Song["come-together.ogg"]
     @bgmusic.play
+    #switch_game_state(SplashScreen.new)
   end
   
   def setup
     retrofy
+<<<<<<< HEAD
     self.factor = 1.2
+=======
+    self.factor = 1.5
+    #switch_game_state(SplashScreen.new)
+>>>>>>> 162e777b7c05473fc2b646dec013bc2d42ccf782
     switch_game_state(Main.new)
 
   end    
