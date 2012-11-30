@@ -13,12 +13,9 @@ class Fruit < Chingu::GameObject
   def setup    
     @animation = Chingu::Animation.new(:file => "watermelon.png", :size => 32)
     @image = @animation.next
-    #self.rotation_center = :center
-    
-    #
+
     # A cached bounding circle will not adapt to changes in size, but it will follow objects X / Y
     # Same is true for "cache_bounding_box"
-    #
     cache_bounding_circle
   end
   

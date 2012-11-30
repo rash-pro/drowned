@@ -3,7 +3,8 @@
 require 'rubygems' rescue nil
 $LOAD_PATH.unshift File.join(File.expand_path(__FILE__), "..", "..", "lib")
 require 'chingu'
-require './fruit.rb'
+require_relative 'fruit'
+require_relative 'player'
 include Gosu
 include Chingu
 
@@ -40,33 +41,26 @@ class Main < GameState
     Sound["laser.wav"] # cache sound by accessing it once
     
     self.viewport.lag = 0                           # 0 = no lag, 0.99 = a lot of lag.
-    self.viewport.game_area = [0, 0, 1000, 1000]    # Viewport restrictions, full "game world/map/area"
+    self.viewport.game_area = [0, 0, 500, 10000]    # Viewport restrictions, full "game world/map/area"
     
     #
     # Create 40 stars scattered around the map. This is now replaced by load_game_objects()
     # ## 40.times { |nr| Star.create(:x => rand * self.viewport.x_max, :y => rand * self.viewport.y_max) }
     #
     load_game_objects( :file => "map.yml")
-  
-    # Create our mechanic star-hunter
-    @droid = Droid.create(:x => 100, :y => 100)    
+    
+    @player = Player.create(:x => 100, :y => 100)    
   end
 
   def update    
     super
 
     # Droid can pick up starts
-    @droid.each_collision(Fruit) do |droid, fruit|
+    @player.each_collision(Fruit) do |player, fruit|
       fruit.destroy
       Sound["laser.wav"].play(0.5)
     end
-    
-    # Bullets collide with stone_walls
-    #Bullet.each_collision(StoneWall) do |bullet, stone_wall|
-    #  bullet.die
-    #  stone_wall.destroy
-    #end
-    
+     
     # Destroy game objects that travels outside the viewport
     game_objects.destroy_if { |game_object| self.viewport.outside_game_area?(game_object) }
     
@@ -75,120 +69,98 @@ class Main < GameState
     # This will make droid will be in the center of the screen all the time...
     # ...except when hitting outer borders and viewport x_min/max & y_min/max kicks in.
     #
-    self.viewport.center_around(@droid)
+    self.viewport.center_around(@player)
         
-    $window.caption = "viewport/edit-trait example. Move with arrows! Press 'E' to Edit. x/y: #{@droid.x.to_i}/#{@droid.y.to_i} - viewport x/y: #{self.viewport.x.to_i}/#{self.viewport.y.to_i} - FPS: #{$window.fps}"
+    $window.caption = "Drowned"
   end
 end
 
-class Droid < Chingu::GameObject
-  trait :bounding_box, :debug => false
-  traits :timer, :collision_detection , :timer
-  attr_accessor :last_x, :last_y, :direction
+# class Droid < Chingu::GameObject
+#   trait :bounding_box, :debug => false
+#   traits :timer, :collision_detection , :timer
+#   attr_accessor :last_x, :last_y, :direction
   
-  def setup
-    #
-    # This shows up the shortened version of input-maps, where each key calls a method of the very same name.
-    # Use this by giving an array of symbols to self.input
-    #
-    self.input = {  [:holding_left, :holding_a] => :holding_left, 
-                    [:holding_right, :holding_d] => :holding_right,
-                    [:holding_up, :holding_w] => :holding_up,
-                    [:holding_down, :holding_s] => :holding_down,
-                    :space => :fire
-                  }
-    
-    # Load the full animation from tile-file media/droid.bmp
-    @animations = Chingu::Animation.new(:file => "droid_11x15.bmp")
-    @animations.frame_names = { :scan => 0..5, :up => 6..7, :down => 8..9, :left => 10..11, :right => 12..13 }
-    
-    # Start out by animation frames 0-5 (contained by @animations[:scan])
-    @animation = @animations[:scan]
-    @speed = 3
-    @last_x, @last_y = @x, @y
-    
-    update
-  end
-    
-  def holding_left
-    move(-@speed, 0)
-    @animation = @animations[:left]
-  end
-
-  def holding_right
-    move(@speed, 0)
-    @animation = @animations[:right]
-  end
-
-  def holding_up
-    move(0, -@speed)
-    @animation = @animations[:up]
-  end
-
-  def holding_down
-    move(0, @speed)
-    @animation = @animations[:down]
-  end
-
-  def fire
-    Bullet.create(:x => self.x, :y => self.y, :velocity => @direction)
-  end
-  
-  #
-  # Revert player to last positions when:
-  # - player is outside the viewport
-  # - player is colliding with at least one object of class StoneWall
-  #
-  def move(x,y)
-    @x += x
-    @x = @last_x  if self.parent.viewport.outside_game_area?(self) || self.first_collision(StoneWall)
-
-    @y += y
-    @y = @last_y  if self.parent.viewport.outside_game_area?(self) || self.first_collision(StoneWall)
-  end
-  
-  # We don't need to call super() in update().
-  # By default GameObject#update is empty since it doesn't contain any gamelogic to speak of.
-  def update
-    
-    # Move the animation forward by fetching the next frame and putting it into @image
-    # @image is drawn by default by GameObject#draw
-    @image = @animation.next
-    
-    if @x == @last_x && @y == @last_y
-      # droid stands still, use the scanning animation
-      @animation = @animations[:scan]
-    else
-      # Save the direction to use with bullets when firing
-      @direction = [@x - @last_x, @y - @last_y]
-    end
-    
-    @last_x, @last_y = @x, @y
-  end
-end
-
-# class Fruit < Chingu::GameObject
-#   trait :bounding_circle, :debug => false
-#   trait :collision_detection
-  
-#   def setup    
-#     @animation = Chingu::Animation.new(:file => "watermelon.png", :size => 32)
-#     @image = @animation.next
-#     #self.rotation_center = :center
-    
+#   def setup
 #     #
-#     # A cached bounding circle will not adapt to changes in size, but it will follow objects X / Y
-#     # Same is true for "cache_bounding_box"
+#     # This shows up the shortened version of input-maps, where each key calls a method of the very same name.
+#     # Use this by giving an array of symbols to self.input
 #     #
-#     cache_bounding_circle
+#     self.input = {  [:holding_left, :holding_a] => :holding_left, 
+#                     [:holding_right, :holding_d] => :holding_right,
+#                     [:holding_up, :holding_w] => :holding_up,
+#                     [:holding_down, :holding_s] => :holding_down,
+#                     :space => :fire
+#                   }
+    
+#     # Load the full animation from tile-file media/droid.bmp
+#     @animations = Chingu::Animation.new(:file => "droid_11x15.bmp")
+#     @animations.frame_names = { :scan => 0..5, :up => 6..7, :down => 8..9, :left => 10..11, :right => 12..13 }
+    
+#     # Start out by animation frames 0-5 (contained by @animations[:scan])
+#     @animation = @animations[:scan]
+#     @speed = 3
+#     @last_x, @last_y = @x, @y
+    
+#     update
+#   end
+    
+#   def holding_left
+#     move(-@speed, 0)
+#     @animation = @animations[:left]
+#   end
+
+#   def holding_right
+#     move(@speed, 0)
+#     @animation = @animations[:right]
+#   end
+
+#   def holding_up
+#     move(0, -@speed)
+#     @animation = @animations[:up]
+#   end
+
+#   def holding_down
+#     move(0, @speed)
+#     @animation = @animations[:down]
+#   end
+
+#   def fire
+#     Bullet.create(:x => self.x, :y => self.y, :velocity => @direction)
 #   end
   
+#   #
+#   # Revert player to last positions when:
+#   # - player is outside the viewport
+#   # - player is colliding with at least one object of class StoneWall
+#   #
+#   def move(x,y)
+#     @x += x
+#     @x = @last_x  if self.parent.viewport.outside_game_area?(self) || self.first_collision(StoneWall)
+
+#     @y += y
+#     @y = @last_y  if self.parent.viewport.outside_game_area?(self) || self.first_collision(StoneWall)
+#   end
+  
+#   # We don't need to call super() in update().
+#   # By default GameObject#update is empty since it doesn't contain any gamelogic to speak of.
 #   def update
+    
 #     # Move the animation forward by fetching the next frame and putting it into @image
 #     # @image is drawn by default by GameObject#draw
 #     @image = @animation.next
+    
+#     if @x == @last_x && @y == @last_y
+#       # droid stands still, use the scanning animation
+#       @animation = @animations[:scan]
+#     else
+#       # Save the direction to use with bullets when firing
+#       @direction = [@x - @last_x, @y - @last_y]
+#     end
+    
+#     @last_x, @last_y = @x, @y
 #   end
 # end
+
 
 class StoneWall < GameObject
   trait :bounding_box, :debug => false
