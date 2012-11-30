@@ -38,7 +38,7 @@ class Main < GameState
     
     self.input = { :escape => :exit } 
 
-    Sound["laser.wav"] # cache sound by accessing it once
+    Sound["fruit.wav"] # cache sound by accessing it once
     
     self.viewport.lag = 0                           # 0 = no lag, 0.99 = a lot of lag.
     self.viewport.game_area = [0, 0, 500, 10000]    # Viewport restrictions, full "game world/map/area"
@@ -58,7 +58,7 @@ class Main < GameState
     # Droid can pick up starts
     @player.each_collision(Fruit) do |player, fruit|
       fruit.destroy
-      Sound["laser.wav"].play(0.5)
+      Sound["fruit.wav"].play(0.5)
     end
      
     # Destroy game objects that travels outside the viewport
