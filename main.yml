@@ -1912,6 +1912,14 @@
     :factor_y: 1
     :alpha: 255
 - Obstruction:
+    :x: 280.0
+    :y: 176.0
+    :angle: 0
+    :zorder: 96
+    :factor_x: 1
+    :factor_y: 1
+    :alpha: 255
+- Obstruction:
     :x: 256.0
     :y: 312.0
     :angle: 0
@@ -2216,6 +2224,14 @@
     :factor_y: 1
     :alpha: 255
 - Fruit:
+    :x: 408.0
+    :y: 152.0
+    :angle: 0
+    :zorder: 100
+    :factor_x: 0.8
+    :factor_y: 0.8
+    :alpha: 255
+- Fruit:
     :x: -80.0
     :y: 128.0
     :angle: 0
@@ -2254,4 +2270,108 @@
     :zorder: 100
     :factor_x: 0.8
     :factor_y: 0.8
+    :alpha: 255
+- Fruit:
+    :x: 160.0
+    :y: 952.0
+    :angle: 0
+    :zorder: 100
+    :factor_x: 0.8
+    :factor_y: 0.8
+    :alpha: 255
+- Obstruction:
+    :x: -48.0
+    :y: 848.0
+    :angle: 0
+    :zorder: 100
+    :factor_x: 1
+    :factor_y: 1
+    :alpha: 255
+- Fruit:
+    :x: -8.0
+    :y: 976.0
+    :angle: 0
+    :zorder: 100
+    :factor_x: 0.8
+    :factor_y: 0.8
+    :alpha: 255
+- Fruit:
+    :x: 216.0
+    :y: 1032.0
+    :angle: 0
+    :zorder: 100
+    :factor_x: 0.8
+    :factor_y: 0.8
+    :alpha: 255
+- Player:
+    :x: 16.0
+    :y: 1024.0
+    :angle: 0
+    :zorder: 100
+    :factor_x: 1.2
+    :factor_y: 1.2
+    :alpha: 255
+- Obstruction:
+    :x: 56.0
+    :y: 912.0
+    :angle: 0
+    :zorder: 100
+    :factor_x: 1
+    :factor_y: 1
+    :alpha: 255
+- Obstruction:
+    :x: 264.0
+    :y: 1016.0
+    :angle: 0
+    :zorder: 100
+    :factor_x: 1
+    :factor_y: 1
+    :alpha: 255
+- Obstruction:
+    :x: 88.0
+    :y: 1048.0
+    :angle: 0
+    :zorder: 100
+    :factor_x: 1
+    :factor_y: 1
+    :alpha: 255
+- Obstruction:
+    :x: 72.0
+    :y: 1000.0
+    :angle: 0
+    :zorder: 100
+    :factor_x: 1
+    :factor_y: 1
+    :alpha: 255
+- Obstruction:
+    :x: 64.0
+    :y: 952.0
+    :angle: 0
+    :zorder: 100
+    :factor_x: 1
+    :factor_y: 1
+    :alpha: 255
+- Obstruction:
+    :x: 80.0
+    :y: 832.0
+    :angle: 0
+    :zorder: 100
+    :factor_x: 2.75
+    :factor_y: 2.75
+    :alpha: 255
+- Obstruction:
+    :x: 88.0
+    :y: 1008.0
+    :angle: 0
+    :zorder: 100
+    :factor_x: 1
+    :factor_y: 1
+    :alpha: 255
+- Fruit:
+    :x: 136.0
+    :y: 1088.0
+    :angle: 0
+    :zorder: 100
+    :factor_x: 2.3
+    :factor_y: 2.3
     :alpha: 255

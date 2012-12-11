@@ -10,9 +10,11 @@ GEM
   remote: https://rubygems.org/
   specs:
     gosu (0.7.45)
+    gosu (0.7.45-x86-mingw32)
 
 PLATFORMS
   ruby
+  x86-mingw32
 
 DEPENDENCIES
   chingu!

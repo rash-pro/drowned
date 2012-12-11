@@ -38,7 +38,7 @@ class Wait < GameState
     on_input([:space, :enter, :backspace, :gamepad_button_1, :return]) { switch_game_state(Main) }
     on_input( [:esc] ) { :exit }
     GameObject.create(:image => Image["splash.png"], :x => 0, :y => 0, :rotation_center => :top_left)
-    @playtext = Chingu::Text.create("Press <return> play", :x => 145, :y => 480, :size => 20, :color => Color::BLACK)
+    @playtext = Chingu::Text.create("Press <return> to play", :x => 145, :y => 480, :size => 20, :color => Color::BLACK)
     every(500, :name => :blink) { @playtext.visible? ? @playtext.hide! : @playtext.show! }
 
     $window.caption = "Drowned"
@@ -154,7 +154,13 @@ class Main < GameState
     @score_text.y = self.viewport.y + 10
 
     if (@player.y) <= (@lava.y + 360)
-      switch_game_state(HighScoreState)
+      @score_text.destroy
+      during(4000) {@lava.y =360}
+      every(600) { @lavatimer = 0}
+      every(600) { @lava.y -= 0 + @lavatimer }
+      @losetext = Chingu::Text.create("You Lose", :x => self.viewport.x + 110, :y => self.viewport.y + 250, :size => 60, :color => Color::RED, zorder: 1000)
+      after(4000){switch_game_state(HighScoreState)}
+  
     end
 
     $window.caption = "Drowned"
@@ -164,9 +170,8 @@ end
 class HighScoreState < GameState
   def setup
     on_input([:esc, :space, :backspace, :gamepad_button_1]) { switch_game_state(Wait) }
-
-
-    @title = PulsatingText.create("HIGH SCORES", :x => $window.width/2, :y => 50, :size => 70)
+    
+    @title = PulsatingText.create("HIGH SCORES", :x => $window.width/2, :y => 50, :size => 50)
 
     #
     # Load a list from disk, defaults to "high_score_list.yml"
@@ -197,9 +202,14 @@ class HighScoreState < GameState
     #
     @high_score_list.each_with_index do |high_score, index|
       y = index * 25 + 100
-      Text.create(high_score[:name], :x => 200, :y => y, :size => 20)
-      Text.create(high_score[:score], :x => 400, :y => y, :size => 20)
+      Text.create(high_score[:name], :x => 150, :y => y, :size => 20)
+      Text.create(high_score[:score], :x => 300, :y => y, :size => 20)
     end
+  end
+
+  def draw
+    fill_gradient(:from => Color::BLUE, :to => Color::CYAN)
+    super
   end
 end
 
