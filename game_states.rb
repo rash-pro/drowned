@@ -13,7 +13,8 @@ class Intro < GameState
   trait :timer
 
   def setup
-    on_input([:space, :esc, :enter, :backspace, :gamepad_button_1, :return]) { switch_game_state(Main) }
+    on_input([:space, :enter, :backspace, :gamepad_button_1, :return]) { switch_game_state(Main) }
+    self.input = { esc: :exit }
     GameObject.create(:image => Image["splash.png"], :x => 0, :y => 0, :rotation_center => :top_left)
     @playtext = Chingu::Text.create("Press <return> to play", :x => 145, :y => 480, :size => 20, :color => Color::BLACK)
     @fader = GameObject.create(:image => Image["intro_fader.png"], :x => 0, :y => 0, :rotation_center => :top_left)
@@ -34,7 +35,8 @@ class Wait < GameState
   trait :timer
 
   def setup
-    on_input([:space, :esc, :enter, :backspace, :gamepad_button_1, :return]) { switch_game_state(Main) }
+    on_input([:space, :enter, :backspace, :gamepad_button_1, :return]) { switch_game_state(Main) }
+    self.input = { esc: :exit }
     GameObject.create(:image => Image["splash.png"], :x => 0, :y => 0, :rotation_center => :top_left)
     @playtext = Chingu::Text.create("Press <return> play", :x => 145, :y => 480, :size => 20, :color => Color::BLACK)
     every(500, :name => :blink) { @playtext.visible? ? @playtext.hide! : @playtext.show! }
@@ -65,7 +67,7 @@ class Main < GameState
   def initialize(options = {})
     super
 
-    self.input = { escape: :exit, e: :edit }
+    self.input = { e: :edit }
 
     Sound["fruit.wav"] # cache sound by accessing it once
 
@@ -176,16 +178,6 @@ class HighScoreState < GameState
     # Add some new high scores to the list. :name and :score are required but you can put whatever.
     # They will mix with the old scores, automatic default sorting on :score
     #
-    10.times do
-      data = {:name => "NEW", :score => rand(10000)}
-
-      position = @high_score_list.add(data)
-      if position
-        puts "#{data[:name]} - #{data[:score]} got position #{position}"
-      else
-        puts "#{data[:name]} - #{data[:score]} didn't make it"
-      end
-    end
 
     create_text
   end
