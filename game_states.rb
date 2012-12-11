@@ -14,7 +14,7 @@ class Intro < GameState
 
   def setup
     on_input([:space, :enter, :backspace, :gamepad_button_1, :return]) { switch_game_state(Main) }
-    self.input = { esc: :exit }
+    on_input( [:esc] ) { :exit }
     GameObject.create(:image => Image["splash.png"], :x => 0, :y => 0, :rotation_center => :top_left)
     @playtext = Chingu::Text.create("Press <return> to play", :x => 145, :y => 480, :size => 20, :color => Color::BLACK)
     @fader = GameObject.create(:image => Image["intro_fader.png"], :x => 0, :y => 0, :rotation_center => :top_left)
@@ -36,7 +36,7 @@ class Wait < GameState
 
   def setup
     on_input([:space, :enter, :backspace, :gamepad_button_1, :return]) { switch_game_state(Main) }
-    self.input = { esc: :exit }
+    on_input( [:esc] ) { :exit }
     GameObject.create(:image => Image["splash.png"], :x => 0, :y => 0, :rotation_center => :top_left)
     @playtext = Chingu::Text.create("Press <return> play", :x => 145, :y => 480, :size => 20, :color => Color::BLACK)
     every(500, :name => :blink) { @playtext.visible? ? @playtext.hide! : @playtext.show! }
